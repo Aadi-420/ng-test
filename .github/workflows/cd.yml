@@ -5,6 +5,7 @@ on:
     workflows: ["Angular CI"]
     types:
       - completed
+    branches: [main]
 
 permissions:
   contents: read
@@ -12,10 +13,17 @@ permissions:
   id-token: write
   actions: read
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -29,6 +37,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist/ng-test
+          retention-days: 1
 
       - name: Deploy to GitHub Pages
         id: deploy
