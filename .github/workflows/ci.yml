@@ -32,7 +32,10 @@ jobs:
       continue-on-error: true
 
     - name: Build
-      run: npm run build -- --configuration production
+      run: npm run build -- --configuration production --base-href /ng-test/
+
+    - name: Copy index.html to 404.html
+      run: cp dist/ng-test/browser/index.html dist/ng-test/browser/404.html
 
     - name: Test
       run: npm run test -- --watch=false --browsers=ChromeHeadless --code-coverage
