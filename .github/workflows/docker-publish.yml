@@ -1,3 +1,4 @@
+
 name: Docker
 
 # This workflow uses actions that are not certified by GitHub.
@@ -96,3 +97,6 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+        
+      - name: Publish To Render
+        run: curl {{secrets.RenderDelpoyHook}}
