@@ -99,4 +99,4 @@ jobs:
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
         
       - name: Publish To Render
-        run: curl ${{secrets.RenderDelpoyHook}}
+        run: curl ${{secrets.RENDERDEPLOYHOOK}}
